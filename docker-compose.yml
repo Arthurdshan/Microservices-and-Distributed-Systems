@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  customer-db:
+    image: postgres
+    container_name: customer-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: customer-db
+    volumes:
+    - customer:/data/postgres
+    ports:
+    - 5434:5432
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  fraud-db:
+    image: postgres
+    container_name: fraud-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: fraud-db
+    volumes:
+      - fraud:/data/postgres
+    ports:
+    - 5435:5432
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  customer:
+  fraud:
