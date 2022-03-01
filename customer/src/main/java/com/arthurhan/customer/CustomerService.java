@@ -16,13 +16,7 @@ public class CustomerService
 
     public CustomerResponse registerCustomer(CustomerRequest customerRequest)
     {
-//        Customer customer =  Customer.builder()
-//                .firstName(customerRequest.getFirstName())
-//                .lastName(customerRequest.getLastName())
-//                .email(customerRequest.getEmail())
-//                .build();
-
-        Customer customer = customerRepository.save(Customer.of(customerRequest));
+        Customer customer = customerRepository.saveAndFlush(Customer.of(customerRequest));
 
         return CustomerResponse.of(customer);
     }
