@@ -1,4 +1,4 @@
-package com.arthurhan.fraud;
+package com.arthurhan.clients.fraud;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

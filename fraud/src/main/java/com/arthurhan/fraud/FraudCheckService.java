@@ -19,6 +19,14 @@ public class FraudCheckService
 
     public boolean isFraudulentCustomer(Integer customerID)
     {
+        fraudCheckHistoryRepository.save(
+                FraudCheckHistory.builder()
+                        .customerId(customerID)
+                        .isFraudster(false)
+                        .createdAt(Instant.now())
+                        .build()
+        );
+
         FraudCheckHistory fraudCheckHistory = fraudCheckHistoryRepository
                 .findById(customerID)
                 .orElseThrow(() -> new FraudException("Customer with id " + customerID + " not found."));

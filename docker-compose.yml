@@ -11,10 +11,10 @@ services:
     volumes:
     - customer:/data/postgres
     ports:
-    - 5434:5432
+    - "5434:5432"
     networks:
       - postgres
-    restart: unless-stopped
+    restart: always
 
   fraud-db:
     image: postgres
@@ -26,10 +26,25 @@ services:
     volumes:
       - fraud:/data/postgres
     ports:
-    - 5435:5432
+    - "5435:5432"
     networks:
       - postgres
-    restart: unless-stopped
+    restart: always
+
+  notification-db:
+    image: postgres
+    container_name: notification-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: notification-db
+    volumes:
+      - notification:/data/postgres
+    ports:
+      - "5436:5432"
+    networks:
+      - postgres
+    restart: always
 
 networks:
   postgres:
@@ -38,3 +53,4 @@ networks:
 volumes:
   customer:
   fraud:
+  notification:
