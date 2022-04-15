@@ -19,7 +19,7 @@ public class NotificationService
 
     public void send(NotificationRequest notificationRequest)
     {
-        notificationRepository.saveAndFlush(
+        notificationRepository.save(
                 Notification.builder()
                         .toCustomerId(notificationRequest.getToCustomerId())
                         .toCustomerEmail(notificationRequest.getToCustomerEmail())
