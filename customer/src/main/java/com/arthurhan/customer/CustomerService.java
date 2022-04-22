@@ -34,7 +34,7 @@ public class CustomerService
 
         if (fraudCheckResponse.getIsFraudster())
         {
-            throw new IllegalStateException("fraudster");
+            throw new IllegalStateException("fraudster client");
         }
 
         // todo: make it async (use message queue)

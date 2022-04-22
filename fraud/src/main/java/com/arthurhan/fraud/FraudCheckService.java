@@ -22,7 +22,7 @@ public class FraudCheckService
         fraudCheckHistoryRepository.save(
                 FraudCheckHistory.builder()
                         .customerId(customerID)
-                        .isFraudster(false)
+                        .isFraudster(true)
                         .createdAt(Instant.now())
                         .build()
         );
