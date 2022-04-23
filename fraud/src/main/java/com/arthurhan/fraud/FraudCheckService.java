@@ -1,28 +1,22 @@
 package com.arthurhan.fraud;
 
-import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
 @Service
+@AllArgsConstructor
 public class FraudCheckService
 {
     private final FraudCheckHistoryRepository fraudCheckHistoryRepository;
-
-    @Autowired
-    public FraudCheckService(FraudCheckHistoryRepository fraudCheckHistoryRepository)
-    {
-        this.fraudCheckHistoryRepository = fraudCheckHistoryRepository;
-    }
 
     public boolean isFraudulentCustomer(Integer customerID)
     {
         fraudCheckHistoryRepository.save(
                 FraudCheckHistory.builder()
                         .customerId(customerID)
-                        .isFraudster(true)
+                        .isFraudster(false)
                         .createdAt(Instant.now())
                         .build()
         );
