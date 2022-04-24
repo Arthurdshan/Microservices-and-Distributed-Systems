@@ -1,5 +1,6 @@
 package com.arthurhan.customer;
 
+import com.arthurhan.amqp.RabbitMqMessageProducer;
 import com.arthurhan.clients.fraud.FraudCheckResponse;
 import com.arthurhan.clients.fraud.FraudClient;
 import com.arthurhan.clients.notification.NotificationClient;
@@ -13,7 +14,7 @@ public class CustomerService
 {
     private final CustomerRepository customerRepository;
     private final FraudClient fraudClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMqMessageProducer messageProducer;
 
     public CustomerResponse registerCustomer(CustomerRequest customerRequest)
     {
@@ -30,13 +31,18 @@ public class CustomerService
             throw new IllegalStateException("fraudster client");
         }
 
-        // todo: make it async (use message queue)
-        notificationClient.sendNotification(NotificationRequest
+        NotificationRequest notificationRequest = NotificationRequest
                 .builder()
                 .toCustomerId(customer.getId())
                 .toCustomerEmail(customer.getEmail())
                 .message("Welcome to the platform")
-                .build());
+                .build();
+
+        messageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
 
         return CustomerResponse.of(customer);
     }
